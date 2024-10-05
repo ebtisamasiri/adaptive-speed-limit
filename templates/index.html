@@ -1,0 +1,191 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adaptive Speed Limit Control System for Real-Time Traffic Management</title>
+    <style>
+        body {
+            background-color: #f8f4e5;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        form {
+            margin: 20px 0;
+        }
+
+        .upload-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .upload-btn:hover {
+            background-color: #0056b3;
+        }
+
+        video {
+            margin-top: 20px;
+            border: 5px solid #ddd;
+        }
+
+        .file-upload {
+            padding: 10px;
+            background-color: #ddd;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        label {
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>ADAPTIVE SPEED LIMIT CONTROL SYSTEM FOR REAL-TIME TRAFFIC MANAGEMENT</h1>
+    
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <div class="file-upload">
+            <label for="file">Choose File</label>
+            <input type="file" name="file" id="file" accept="video/*" required>
+        </div>
+        <button class="upload-btn" type="submit">Upload Video</button>
+    </form>
+
+    {% if processed_video %}
+        <h2>Processed Video:</h2>
+        <video width="720" height="480" controls>
+            <source src="{{ url_for('processed_video', filename=processed_video) }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    {% endif %}
+
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adaptive Speed Limit Control System for Real-Time Traffic Management</title>
+    <style>
+        body {
+            background-color: #f8f4e5;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        /* Apple-style upload button */
+        .upload-btn {
+            padding: 12px 24px;
+            background-color: #007aff;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .upload-btn:hover {
+            background-color: #005bb5;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        video {
+            margin-top: 20px;
+            border: none; /* Removed the border around the video */
+        }
+
+        .file-upload {
+            padding: 10px;
+            background-color: #ddd;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        label {
+            font-size: 16px;
+        }
+
+        /* Processing message */
+        .processing-message {
+            font-size: 20px;
+            font-weight: bold;
+            color: #555;
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+
+    <script>
+        function uploadVideo(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            const formData = new FormData(document.getElementById('upload-form'));
+            const messageDiv = document.getElementById('processing-message');
+            messageDiv.style.display = 'block'; // Show the "Processing" message
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/upload', true);
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    // Hide the processing message
+                    messageDiv.style.display = 'none';
+                    
+                    // Insert the video returned by the server
+                    document.getElementById('video-container').innerHTML = xhr.responseText;
+                } else {
+                    alert('An error occurred while processing the video.');
+                }
+            };
+
+            xhr.send(formData); // Send the form data with the video
+        }
+    </script>
+</head>
+<body>
+
+    <h1>ADAPTIVE SPEED LIMIT CONTROL SYSTEM FOR REAL-TIME TRAFFIC MANAGEMENT</h1>
+    
+    <!-- Upload form -->
+    <form id="upload-form" onsubmit="uploadVideo(event)" enctype="multipart/form-data">
+        <div class="file-upload">
+            <label for="file">Choose File</label>
+            <input type="file" name="file" id="file" accept="video/*" required>
+        </div>
+        <button class="upload-btn" type="submit">Upload Video</button>
+    </form>
+
+    <!-- Processing message (hidden by default) -->
+    <div id="processing-message" class="processing-message">
+        Processing video, please wait...
+    </div>
+
+    <!-- Video container (for displaying the processed video) -->
+    <div id="video-container"></div>
+
+</body>
+</html>
